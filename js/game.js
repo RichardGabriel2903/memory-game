@@ -35,7 +35,13 @@ const checkEndGame = () => {
     abrirModal(spanPlayer.innerHTML, timer.innerHTML);
   }
 };
+
 const abrirModal = (nome, tempo) => {
+  const tempoNumerico = +tempo;
+
+  savePlayerRecord(nome, tempoNumerico);
+  loadRanking();
+
   modalTitulo.innerHTML = `🎉 Parabéns, ${nome}!`;
   modalMensagem.innerHTML = `Você completou o Jogo da Memória em um tempo incrível de **${tempo} segundos**!`;
 
@@ -45,6 +51,12 @@ const abrirModal = (nome, tempo) => {
 const fecharModal = () => {
   modal.classList.remove("active");
   window.location.reload();
+};
+
+const trocarUsuario = () => {
+  localStorage.removeItem("player");
+
+  window.location.href = "../index.html";
 };
 
 const checkCards = () => {
@@ -113,6 +125,40 @@ const loadGame = () => {
   });
 };
 
+const rankingList = document.getElementById("ranking-list");
+
+const savePlayerRecord = (player, time) => {
+  let ranking = JSON.parse(localStorage.getItem("memoryGameRanking")) || [];
+
+  const playerIndex = ranking.findIndex((item) => item.player === player);
+
+  if (playerIndex > -1) {
+    if (time < ranking[playerIndex].time) {
+      ranking[playerIndex].time = time;
+    }
+  } else {
+    ranking.push({ player, time });
+  }
+
+  ranking.sort((a, b) => a.time - b.time);
+
+  localStorage.setItem("memoryGameRanking", JSON.stringify(ranking));
+};
+
+const loadRanking = () => {
+  const ranking = JSON.parse(localStorage.getItem("memoryGameRanking")) || [];
+  rankingList.innerHTML = "";
+
+  ranking.slice(0, 10).forEach((item, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span>${index + 1}. ${item.player}</span>
+      <span>${item.time}s</span>
+    `;
+    rankingList.appendChild(li);
+  });
+};
+
 const startTimer = () => {
   this.loop = setInterval(() => {
     const currentTime = +timer.innerHTML;
@@ -124,4 +170,5 @@ window.onload = () => {
   spanPlayer.innerHTML = localStorage.getItem("player");
   startTimer();
   loadGame();
+  loadRanking();
 };

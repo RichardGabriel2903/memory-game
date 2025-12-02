@@ -198,36 +198,46 @@ header {
     flex-direction: column;
     align-items: center;
     padding-bottom: 20px;
+    padding: 20px 10px;
   }
 
   main {
     padding-top: 20px;
     margin-bottom: 20px;
+    width: 100%;
+    align-items: center;
   }
 
   .ranking {
-    max-width: 800px;
+    max-width: 100%;
+    width: 100%;
     margin-top: 0;
-    width: 90%;
-    order: 2;
+    padding: 15px;
+    box-sizing: border-box;
   }
 }
 
 @media (max-width: 550px) {
   .grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    gap: 8px;
     width: 90%;
+    max-width: 95vw;
+    padding: 0 5px;
+    box-sizing: border-box;
   }
 
   header {
     font-size: 1em;
-    padding: 20px;
-    width: 90%;
+    padding: 15px;
+    width: 95vw;
+    max-width: 95vw;
   }
 
   .modal-content {
     padding: 20px;
+    max-width: 90%;
+    width: 300px;
   }
 
   #modal-titulo {
@@ -247,7 +257,7 @@ header {
 @media (max-width: 400px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    gap: 5px;
   }
 }
 

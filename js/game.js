@@ -24,14 +24,27 @@ const createElement = (tag, className) => {
 let firstCard = "";
 let secondCard = "";
 
+const modal = document.getElementById("parabens-modal");
+const modalTitulo = document.getElementById("modal-titulo");
+const modalMensagem = document.getElementById("modal-mensagem");
+
 const checkEndGame = () => {
   const disabledCards = document.querySelectorAll(".disabled-card");
   if (disabledCards.length === characters.length * 2) {
     clearInterval(this.loop);
-    alert(
-      `Parabéns, ${spanPlayer.innerHTML}! Seu tempo foi: ${timer.innerHTML} segundos.`
-    );
+    abrirModal(spanPlayer.innerHTML, timer.innerHTML);
   }
+};
+const abrirModal = (nome, tempo) => {
+  modalTitulo.innerHTML = `🎉 Parabéns, ${nome}!`;
+  modalMensagem.innerHTML = `Você completou o Jogo da Memória em um tempo incrível de **${tempo} segundos**!`;
+
+  modal.classList.add("active");
+};
+
+const fecharModal = () => {
+  modal.classList.remove("active");
+  window.location.reload();
 };
 
 const checkCards = () => {
